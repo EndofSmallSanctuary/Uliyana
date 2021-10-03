@@ -88,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
                         RealmCard realmcard = realm.createObject(RealmCard.class, UUID.randomUUID());
                         realmcard.setCardnum(emvCard.getCardNumber());
+                        if(emvCard.getExpireDate()!=null)
+                        realmcard.setExpdate(emvCard.getExpireDate().toString());
+                        realmcard.setAid(emvCard.getAid());
+                        if(emvCard.getType()!=null)
+                        realmcard.setCardtype(emvCard.getType().toString());
+                        realmcard.setHoldername(emvCard.getHolderFirstname()+" "+emvCard.getHolderLastname());
+                        realmcard.setTransactions(emvCard.getListTransactions().toString());
 
                         realm.commitTransaction();
                     }

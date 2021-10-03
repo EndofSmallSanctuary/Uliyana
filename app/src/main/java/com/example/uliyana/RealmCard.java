@@ -15,7 +15,15 @@ public class RealmCard extends RealmObject {
     private String expdate;
     private String transactions;
     private String aid;
+    private String holdername;
 
+    public String getHoldername() {
+        return holdername;
+    }
+
+    public void setHoldername(String holdername) {
+        this.holdername = holdername;
+    }
 
     public String getCardnum() {
         return cardnum;
@@ -59,6 +67,18 @@ public class RealmCard extends RealmObject {
 
     public RealmCard(){}
 
+    @Override
+    public String toString() {
+        return "RealmCard{" +
+                "id=" + id +
+                ", cardnum='" + cardnum + '\'' +
+                ", cardtype='" + cardtype + '\'' +
+                ", expdate='" + expdate + '\'' +
+                ", transactions='" + transactions + '\'' +
+                ", aid='" + aid + '\'' +
+                ", holdername='" + holdername + '\'' +
+                '}';
+    }
 
     public RealmCard(EmvCard emvCard){
        this.aid =  (emvCard.getAid()==null) ? null : emvCard.getAid();
