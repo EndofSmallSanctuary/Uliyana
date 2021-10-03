@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.uliyana.Notificator.NotificationManager;
 import com.example.uliyana.Realm.RealmUtility;
 
 import java.io.IOException;
@@ -23,9 +24,6 @@ import java.util.UUID;
 
 import io.github.tapcard.android.NFCCardReader;
 import io.github.tapcard.emvnfccard.model.EmvCard;
-import io.karn.notify.Notify;
-import io.karn.notify.NotifyCreator;
-import io.karn.notify.entities.Payload;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -34,12 +32,14 @@ public class MainActivity extends AppCompatActivity {
     NfcAdapter adapter;
     PendingIntent mPendingIntent;
     NFCCardReader nfcCardReader;
+    NotificationManager notificationManager;
     Realm realm;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       notificationManager = new NotificationManager(this);
 
         //realm = Realm.getDefaultInstance();
         realm = Realm.getInstance(RealmUtility.getDefaultConfig());
@@ -80,10 +80,10 @@ public class MainActivity extends AppCompatActivity {
 
                     RealmResults<RealmCard> matchingResult = realm.where(RealmCard.class).equalTo("cardnum",emvCard.getCardNumber()).findAll();
                     if(matchingResult.size()>0){
-
+                        notificationManager.notify("Found matching card");
                     }
                     else {
-
+                        notificationManager.notify(emvCard.getCardNumber());
                         realm.beginTransaction();
 
                         RealmCard realmcard = realm.createObject(RealmCard.class, UUID.randomUUID());
