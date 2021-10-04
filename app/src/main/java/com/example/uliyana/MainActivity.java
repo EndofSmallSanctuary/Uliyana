@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.uliyana.ASDU.IsoDEPTH;
+import com.example.uliyana.ASDU.Utils;
 import com.example.uliyana.Notificator.NotificationManager;
 import com.example.uliyana.Realm.RealmUtility;
 
@@ -69,46 +71,50 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onNewIntent(Intent intent) {
-        if(nfcCardReader.isSuitableIntent(intent)){
-            try {
-
-                EmvCard emvCard = nfcCardReader.readCardBlocking(intent);
-                if(emvCard.getCardNumber()!=null) {
-
-                
-
-
-                    RealmResults<RealmCard> matchingResult = realm.where(RealmCard.class).equalTo("cardnum",emvCard.getCardNumber()).findAll();
-                    if(matchingResult.size()>0){
-                        notificationManager.notify("Found matching card");
-                    }
-                    else {
-                        notificationManager.notify(emvCard.getCardNumber());
-                        realm.beginTransaction();
-
-                        RealmCard realmcard = realm.createObject(RealmCard.class, UUID.randomUUID());
-                        realmcard.setCardnum(emvCard.getCardNumber());
-                        if(emvCard.getExpireDate()!=null)
-                        realmcard.setExpdate(emvCard.getExpireDate().toString());
-                        realmcard.setAid(emvCard.getAid());
-                        if(emvCard.getType()!=null)
-                        realmcard.setCardtype(emvCard.getType().toString());
-                        realmcard.setHoldername(emvCard.getHolderFirstname()+" "+emvCard.getHolderLastname());
-                        realmcard.setTransactions(emvCard.getListTransactions().toString());
-
-                        realm.commitTransaction();
-                    }
-                }
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (NFCCardReader.WrongIntentException e) {
-                e.printStackTrace();
-            } catch (NFCCardReader.WrongTagTech wrongTagTech) {
-                wrongTagTech.printStackTrace();
-            }
-        }
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        IsoDEPTH isoDEPTH = new IsoDEPTH();
+        isoDEPTH.sendTestCommand(tag);
+        Log.d("dagos",Utils.bytesToHex(tag.getId()));
+//        if(nfcCardReader.isSuitableIntent(intent)){
+//            try {
+//
+//                EmvCard emvCard = nfcCardReader.readCardBlocking(intent);
+//                if(emvCard.getCardNumber()!=null) {
+//
+//
+//
+//
+//                    RealmResults<RealmCard> matchingResult = realm.where(RealmCard.class).equalTo("cardnum",emvCard.getCardNumber()).findAll();
+//                    if(matchingResult.size()>0){
+//                        notificationManager.notify("Found matching card");
+//                    }
+//                    else {
+//                        notificationManager.notify(emvCard.getCardNumber());
+//                        realm.beginTransaction();
+//
+//                        RealmCard realmcard = realm.createObject(RealmCard.class, UUID.randomUUID());
+//                        realmcard.setCardnum(emvCard.getCardNumber());
+//                        if(emvCard.getExpireDate()!=null)
+//                        realmcard.setExpdate(emvCard.getExpireDate().toString());
+//                        realmcard.setAid(emvCard.getAid());
+//                        if(emvCard.getType()!=null)
+//                        realmcard.setCardtype(emvCard.getType().toString());
+//                        realmcard.setHoldername(emvCard.getHolderFirstname()+" "+emvCard.getHolderLastname());
+//                        realmcard.setTransactions(emvCard.getListTransactions().toString());
+//
+//                        realm.commitTransaction();
+//                    }
+//                }
+//
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (NFCCardReader.WrongIntentException e) {
+//                e.printStackTrace();
+//            } catch (NFCCardReader.WrongTagTech wrongTagTech) {
+//                wrongTagTech.printStackTrace();
+//            }
+//        }
         super.onNewIntent(intent);
     }
 
