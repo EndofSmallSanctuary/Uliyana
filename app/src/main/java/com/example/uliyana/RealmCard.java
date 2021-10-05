@@ -2,7 +2,7 @@ package com.example.uliyana;
 
 import java.util.UUID;
 
-import io.github.tapcard.emvnfccard.model.EmvCard;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -80,8 +80,5 @@ public class RealmCard extends RealmObject {
                 '}';
     }
 
-    public RealmCard(EmvCard emvCard){
-       this.aid =  (emvCard.getAid()==null) ? null : emvCard.getAid();
-       this.cardnum = (emvCard.getCardNumber()==null) ? null : emvCard.getCardNumber();
-    }
+
 }

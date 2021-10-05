@@ -24,8 +24,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import io.github.tapcard.android.NFCCardReader;
-import io.github.tapcard.emvnfccard.model.EmvCard;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     NfcAdapter adapter;
     PendingIntent mPendingIntent;
-    NFCCardReader nfcCardReader;
     NotificationManager notificationManager;
     Realm realm;
 
@@ -53,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         );
-        nfcCardReader = new NFCCardReader(this);
 
 
         setContentView(R.layout.activity_main);
@@ -62,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        nfcCardReader.enableDispatch();
         super.onResume();
     }
 
@@ -120,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        nfcCardReader.disableDispatch();
        // adapter.disableForegroundDispatch(this);
         super.onPause();
     }
