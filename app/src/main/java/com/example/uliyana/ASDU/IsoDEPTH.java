@@ -24,9 +24,9 @@ public class IsoDEPTH {
            result = isoProvider.transceive(APDUCommand);
             Log.d("dagos",Utils.bytesTOSIREN(result));
             result = isoProvider.transceive(Utils.hexStringToByteArray(buildEmptyPDOLSignature()));
-            Log.d("dagos",Utils.bytesTOSIREN(result));
-//            result = isoProvider.transceive(Utils.hexStringToByteArray(buildReadRequestSignature()));
-//            Log.d("dagosRes",Utils.bytesTOSIREN(result));
+            Log.d("dagos",Utils.bytesToHex(result));
+            result = isoProvider.transceive(Utils.hexStringToByteArray(buildReadRequestSignature()));
+            Log.d("dagosRes",Utils.bytesTOSIREN(result));
 
         } catch (Exception e){
             Log.d("dagos",e.getMessage());
@@ -39,12 +39,12 @@ public class IsoDEPTH {
     }
 
     private String buildReadRequestSignature(){
-        String signature = "00B21008";
+        String signature = "00B2011C00";
         return signature;
     }
 
     private String buildEmptyPDOLSignature(){
-        String signature = "80A8000002830000";
+        String signature = "80A80000028300";
         return signature;
     }
 

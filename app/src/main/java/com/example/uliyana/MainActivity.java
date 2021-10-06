@@ -25,11 +25,13 @@ import java.util.List;
 import java.util.UUID;
 
 
+import io.github.tapcard.android.NFCCardReader;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
+    NFCCardReader nfcCardReader;
     NfcAdapter adapter;
     PendingIntent mPendingIntent;
     NotificationManager notificationManager;
@@ -52,13 +54,15 @@ public class MainActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         );
 
-
+        nfcCardReader = new NFCCardReader(this);
         setContentView(R.layout.activity_main);
     }
 
 
     @Override
     protected void onResume() {
+
+        nfcCardReader.enableDispatch();
         super.onResume();
     }
 
