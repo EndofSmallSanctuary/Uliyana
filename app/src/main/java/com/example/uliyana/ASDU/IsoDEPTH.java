@@ -39,7 +39,9 @@ public class IsoDEPTH {
     }
 
     private String buildReadRequestSignature(){
-        String signature = "00B2011C00";
+       // String signature = "00B2011400";
+         String signature = "00B2011C00";
+
         return signature;
     }
 
